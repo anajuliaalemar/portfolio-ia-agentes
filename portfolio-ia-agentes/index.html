@@ -1,0 +1,1731 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ana Júlia Alemar | IA, Agentes & Inovação</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-primary: #0b0b0f;
+      --bg-secondary: #121218;
+      --bg-card: #16161f;
+      --bg-card-hover: #1d1d29;
+      --bg-elevated: #222230;
+      --text-primary: #f7f4f9;
+      --text-secondary: #b5aec2;
+      --text-muted: #7c758c;
+      --border-subtle: rgba(244, 114, 182, 0.18);
+      --border-strong: rgba(244, 114, 182, 0.42);
+      --pink-primary: #ec4899;
+      --pink-bright: #f472b6;
+      --pink-soft: rgba(236, 72, 153, 0.14);
+      --pink-glow: rgba(236, 72, 153, 0.28);
+      --accent-secondary: #a855f7;
+      --shadow-card: 0 12px 32px -12px rgba(0, 0, 0, 0.65);
+      --shadow-pink: 0 10px 28px -8px rgba(236, 72, 153, 0.35);
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 22px;
+      --radius-full: 9999px;
+      --transition: 200ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    html.light {
+      --bg-primary: #fdf8fb;
+      --bg-secondary: #f8eff5;
+      --bg-card: #ffffff;
+      --bg-card-hover: #fff5fa;
+      --bg-elevated: #fce7f3;
+      --text-primary: #1a1025;
+      --text-secondary: #524363;
+      --text-muted: #7c6b8f;
+      --border-subtle: rgba(219, 39, 119, 0.14);
+      --border-strong: rgba(219, 39, 119, 0.35);
+      --pink-primary: #db2777;
+      --pink-bright: #ec4899;
+      --pink-soft: rgba(219, 39, 119, 0.1);
+      --pink-glow: rgba(219, 39, 119, 0.22);
+      --accent-secondary: #9333ea;
+      --shadow-card: 0 10px 26px -10px rgba(82, 24, 66, 0.12);
+      --shadow-pink: 0 10px 24px -8px rgba(219, 39, 119, 0.25);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(circle at 12% 8%, var(--pink-soft) 0%, transparent 42%),
+        radial-gradient(circle at 88% 18%, rgba(168, 85, 247, 0.08) 0%, transparent 40%);
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, input {
+      font-family: inherit;
+    }
+
+    .icon-svg {
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-svg svg {
+      width: 100%;
+      height: 100%;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: color-mix(in srgb, var(--bg-primary) 84%, transparent);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .header-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0.9rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--pink-bright), var(--accent-secondary));
+      box-shadow: 0 0 12px var(--pink-glow);
+    }
+
+    .brand-badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-full);
+      background: var(--pink-soft);
+      color: var(--pink-bright);
+      border: 1px solid var(--border-strong);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-nav {
+      display: inline-flex;
+      align-items: center;
+      background: var(--bg-secondary);
+      padding: 0.25rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+      gap: 0.2rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--radius-full);
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background: var(--pink-soft);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--pink-primary), #be185d);
+      color: #ffffff;
+      box-shadow: var(--shadow-pink);
+    }
+
+    .theme-toggle {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-strong);
+      background: var(--bg-card);
+      color: var(--pink-bright);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .theme-toggle:hover {
+      background: var(--pink-soft);
+      transform: translateY(-1px);
+    }
+
+    /* Main Layout */
+    .main-container {
+      flex: 1 0 auto;
+      width: 100%;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 2.2rem 1.25rem 3.5rem;
+    }
+
+    .tab-section {
+      display: none;
+      animation: fadeSlideIn 260ms ease;
+    }
+
+    .tab-section.active {
+      display: block;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Tela Inicial (3 caixinhas maiores e centralizadas) */
+    .home-wrapper {
+      min-height: calc(100vh - 220px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .home-intro {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .home-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--pink-bright);
+      background: var(--pink-soft);
+      border: 1px solid var(--border-strong);
+      padding: 0.32rem 0.85rem;
+      border-radius: var(--radius-full);
+      margin-bottom: 0.95rem;
+    }
+
+    .home-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.9rem, 4.2vw, 2.85rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .home-subtitle {
+      color: var(--text-secondary);
+      font-size: 1.02rem;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(280px, 1fr));
+      gap: 1.65rem;
+      max-width: 1180px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    @media (max-width: 960px) {
+      .choice-grid {
+        grid-template-columns: 1fr;
+        max-width: 560px;
+      }
+    }
+
+    .choice-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.65rem;
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1.25rem;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+      transition: all var(--transition);
+    }
+
+    .choice-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-strong);
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-pink);
+    }
+
+    .choice-art {
+      width: 100%;
+      height: 175px;
+      border-radius: var(--radius-md);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .choice-art svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .choice-step {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--pink-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    .choice-name {
+      font-family: var(--font-display);
+      font-size: 1.32rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .choice-desc {
+      color: var(--text-secondary);
+      font-size: 0.93rem;
+    }
+
+    .choice-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--pink-bright);
+      padding-top: 0.35rem;
+    }
+
+    /* Hero & Toolbar */
+    .hero-banner {
+      background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.15rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      color: var(--text-primary);
+      margin-bottom: 0.45rem;
+    }
+
+    .highlight-pink {
+      color: var(--pink-bright);
+    }
+
+    .hero-desc {
+      color: var(--text-secondary);
+      max-width: 680px;
+      font-size: 0.95rem;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .category-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .pill-btn {
+      padding: 0.45rem 0.9rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .pill-btn:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+
+    .pill-btn.active {
+      background: var(--pink-soft);
+      border-color: var(--pink-bright);
+      color: var(--pink-bright);
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 240px;
+      flex: 0 1 320px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.58rem 0.95rem 0.58rem 2.4rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    .search-input:focus {
+      border-color: var(--pink-bright);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    /* Cards Grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .agent-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.35rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+      box-shadow: var(--shadow-card);
+      transition: all var(--transition);
+    }
+
+    .agent-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-strong);
+      transform: translateY(-3px);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .card-category {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--pink-bright);
+      background: var(--pink-soft);
+      padding: 0.22rem 0.6rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.4rem;
+    }
+
+    .card-summary {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .prompt-preview {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      color: var(--text-secondary);
+      max-height: 112px;
+      overflow: hidden;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+    }
+
+    .tag-chip {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      background: var(--bg-elevated);
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding-top: 0.65rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.45rem 0.78rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-action:hover {
+      border-color: var(--pink-bright);
+      color: var(--pink-bright);
+    }
+
+    .btn-action.primary {
+      background: linear-gradient(135deg, var(--pink-primary), #be185d);
+      border-color: transparent;
+      color: #ffffff;
+    }
+
+    .btn-action.primary:hover {
+      filter: brightness(1.08);
+      color: #ffffff;
+    }
+
+    /* Sobre Mim */
+    .about-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.35rem;
+    }
+
+    .about-spotlight {
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    @media (max-width: 820px) {
+      .about-spotlight {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .profile-photo-wrap {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 2px solid var(--border-strong);
+      background: var(--bg-secondary);
+      position: relative;
+    }
+
+    .profile-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    .profile-fallback {
+      display: none;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.5rem;
+      color: var(--pink-bright);
+      background: var(--pink-soft);
+      padding: 1rem;
+    }
+
+    .profile-photo-wrap.missing .profile-photo {
+      display: none;
+    }
+
+    .profile-photo-wrap.missing .profile-fallback {
+      display: flex;
+    }
+
+    .spotlight-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--pink-bright);
+      background: var(--pink-soft);
+      border: 1px solid var(--border-subtle);
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-full);
+      display: inline-block;
+      margin-bottom: 0.6rem;
+    }
+
+    .spotlight-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.22;
+      margin-bottom: 0.65rem;
+    }
+
+    .spotlight-text {
+      color: var(--text-secondary);
+      font-size: 0.94rem;
+      margin-bottom: 1rem;
+    }
+
+    .spotlight-subbox {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1rem;
+    }
+
+    .spotlight-subbox-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--pink-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.2rem;
+    }
+
+    .spotlight-subbox-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .spotlight-subbox-desc {
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+    }
+
+    .about-boxes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 820px) {
+      .about-boxes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .about-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.35rem;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .about-box-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .about-box-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      background: var(--pink-soft);
+      border: 1px solid var(--border-strong);
+      color: var(--pink-bright); /* <-- Garante os ícones em rosa */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .about-box-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .about-box-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .about-nested-item {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.8rem 0.9rem;
+    }
+
+    .about-nested-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .about-nested-desc {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+    }
+
+    .about-box-text {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    .mini-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.2rem;
+    }
+
+    .mini-pill {
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      color: var(--pink-bright);
+      background: var(--pink-soft);
+      border: 1px solid var(--border-subtle);
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-sm);
+    }
+
+    /* Ideas Grid */
+    .ideas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .idea-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 1rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    /* Footer */
+    .site-footer {
+      flex-shrink: 0;
+      border-top: 1px solid var(--border-subtle);
+      background: var(--bg-secondary);
+      padding: 0.75rem 1.25rem;;
+    }
+
+    .footer-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-size: 0.86rem;
+      color: var(--text-secondary);
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.42rem 0.8rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-primary);
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: all var(--transition);
+    }
+
+    .footer-link:hover {
+      border-color: var(--pink-bright);
+      color: var(--pink-bright);
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(8, 7, 12, 0.72);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 680px;
+      max-height: 88vh;
+      overflow-y: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-pink);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .modal-prompt {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      z-index: 80;
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--pink-bright);
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-pink);
+      font-size: 0.86rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: all var(--transition);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand-group">
+        <a href="#home" class="brand-name" data-go-tab="home">
+          <span class="brand-dot"></span>
+          <span>Ana Júlia Alemar</span>
+        </a>
+        <span class="brand-badge">
+          <span class="icon-svg" id="badgeSparkIcon"></span>
+          <span>IA &amp; Inovação</span>
+        </span>
+      </div>
+
+      <div class="nav-controls">
+        <nav class="tab-nav" aria-label="Navegação principal">
+          <button type="button" class="tab-btn active" data-tab="home" aria-pressed="true">
+            <span class="icon-svg" id="navHomeIcon"></span>
+            <span>Início</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="agents" aria-pressed="false">
+            <span class="icon-svg" id="navAgentsIcon"></span>
+            <span>Agentes &amp; Prompts</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="about" aria-pressed="false">
+            <span class="icon-svg" id="navAboutIcon"></span>
+            <span>Sobre Mim</span>
+          </button>
+          <button type="button" class="tab-btn" data-tab="ideas" aria-pressed="false">
+            <span class="icon-svg" id="navIdeasIcon"></span>
+            <span>Ideias &amp; Soluções</span>
+          </button>
+        </nav>
+
+        <button type="button" id="themeToggle" class="theme-toggle" aria-label="Alternar modo claro e escuro" title="Alternar tema">
+          <span class="icon-svg" id="themeIcon"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <!-- TELA INICIAL DE ESCOLHA -->
+    <section id="tab-home" class="tab-section active" aria-labelledby="homeHeading">
+      <div class="home-wrapper">
+        <div class="home-intro">
+          <div class="home-kicker">
+            <span class="icon-svg" id="kickerIcon"></span>
+            <span>PORTFÓLIO INTERATIVO DE IA &amp; PROMPTS</span>
+          </div>
+          <h1 id="homeHeading" class="home-title">
+            O que você quer <span class="highlight-pink">explorar</span> hoje?
+          </h1>
+          <p class="home-subtitle">
+            Escolha uma das opções abaixo para acessar os agentes com prompts prontos no GitHub, conhecer minha trajetória ou explorar novas ideias de IA.
+          </p>
+        </div>
+
+        <div class="choice-grid">
+          <button type="button" class="choice-card" data-go-tab="agents">
+            <div class="choice-art" aria-hidden="true">
+              <svg viewBox="0 0 280 150" fill="none">
+                <rect x="24" y="20" width="232" height="110" rx="14" stroke="#f472b6" stroke-width="2.2" fill="#ec4899" fill-opacity="0.08"/>
+                <circle cx="84" cy="75" r="25" stroke="#f472b6" stroke-width="2.2" fill="#ec4899" fill-opacity="0.18"/>
+                <circle cx="77" cy="71" r="3" fill="#f472b6"/>
+                <circle cx="91" cy="71" r="3" fill="#f472b6"/>
+                <path d="M76 82C78.5 86 89.5 86 92 82" stroke="#f472b6" stroke-width="2.2" stroke-linecap="round"/>
+                <rect x="126" y="45" width="102" height="12" rx="6" fill="#f472b6" fill-opacity="0.38"/>
+                <rect x="126" y="68" width="80" height="10" rx="5" fill="#a855f7" fill-opacity="0.4"/>
+                <rect x="126" y="89" width="92" height="10" rx="5" fill="#f472b6" fill-opacity="0.25"/>
+              </svg>
+            </div>
+            <div>
+              <span class="choice-step">Opção 01</span>
+              <h2 class="choice-name">Agentes e Prompts</h2>
+              <p class="choice-desc">
+                Veja os agentes criados por mim, copie prompts funcionais e abra o repositório direto no GitHub.
+              </p>
+            </div>
+            <span class="choice-cta">
+              <span>Ir para Agentes e Prompts</span>
+              <span class="icon-svg" id="arrowCard1"></span>
+            </span>
+          </button>
+
+          <button type="button" class="choice-card" data-go-tab="about">
+            <div class="choice-art" aria-hidden="true">
+              <svg viewBox="0 0 280 150" fill="none">
+                <rect x="24" y="20" width="232" height="110" rx="14" stroke="#f472b6" stroke-width="2.2" fill="#ec4899" fill-opacity="0.08"/>
+                <circle cx="88" cy="59" r="18" stroke="#f472b6" stroke-width="2.2" fill="#ec4899" fill-opacity="0.22"/>
+                <path d="M57 107C60 90 73 82 88 82C103 82 116 90 119 107" stroke="#f472b6" stroke-width="2.2" stroke-linecap="round"/>
+                <rect x="136" y="47" width="90" height="12" rx="6" fill="#f472b6" fill-opacity="0.38"/>
+                <rect x="136" y="70" width="98" height="10" rx="5" fill="#a855f7" fill-opacity="0.38"/>
+                <rect x="136" y="91" width="72" height="10" rx="5" fill="#f472b6" fill-opacity="0.25"/>
+              </svg>
+            </div>
+            <div>
+              <span class="choice-step">Opção 02</span>
+              <h2 class="choice-name">Quem é a Ana Júlia Alemar</h2>
+              <p class="choice-desc">
+                Conheça minha formação em ADS e Eletrotécnica, atuação com IA e automação, robótica e liderança em STEM.
+              </p>
+            </div>
+            <span class="choice-cta">
+              <span>Conhecer Ana Júlia Alemar</span>
+              <span class="icon-svg" id="arrowCard2"></span>
+            </span>
+          </button>
+
+          <button type="button" class="choice-card" data-go-tab="ideas">
+            <div class="choice-art" aria-hidden="true">
+              <svg viewBox="0 0 280 150" fill="none">
+                <rect x="24" y="20" width="232" height="110" rx="14" stroke="#f472b6" stroke-width="2.2" fill="#ec4899" fill-opacity="0.08"/>
+                <path d="M140 41C123.4 41 110 54.4 110 71C110 81.4 115.3 90.5 123.3 95.9C125.6 97.5 127 100 127 102.8V106H153V102.8C153 100 154.4 97.5 156.7 95.9C164.7 90.5 170 81.4 170 71C170 54.4 156.6 41 140 41Z" stroke="#f472b6" stroke-width="2.2" fill="#ec4899" fill-opacity="0.2"/>
+                <line x1="130" y1="112" x2="150" y2="112" stroke="#f472b6" stroke-width="2.4" stroke-linecap="round"/>
+                <line x1="140" y1="27" x2="140" y2="34" stroke="#a855f7" stroke-width="2.4" stroke-linecap="round"/>
+                <line x1="90" y1="51" x2="97" y2="55" stroke="#f472b6" stroke-width="2.4" stroke-linecap="round"/>
+                <line x1="190" y1="51" x2="183" y2="55" stroke="#f472b6" stroke-width="2.4" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <span class="choice-step">Opção 03</span>
+              <h2 class="choice-name">Ideias e Soluções</h2>
+              <p class="choice-desc">
+                Explore prompts experimentais e soluções aplicadas para produtividade, estudos e criação com IA.
+              </p>
+            </div>
+            <span class="choice-cta">
+              <span>Explorar Ideias e Soluções</span>
+              <span class="icon-svg" id="arrowCard3"></span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 1: AGENTES & PROMPTS -->
+    <section id="tab-agents" class="tab-section" aria-labelledby="agentsHeading">
+      <div class="hero-banner">
+        <div>
+          <h1 id="agentsHeading" class="hero-title">
+            Agentes &amp; <span class="highlight-pink">Prompts Funcionais</span>
+          </h1>
+          <p class="hero-desc">
+            Catálogo interativo dos agentes que desenvolvi. Copie o prompt direto no card, abra o modal completo ou acesse o repositório no GitHub.
+          </p>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="category-pills" id="categoryPills"></div>
+        <div class="search-box">
+          <span class="icon-svg search-icon" id="searchIcon"></span>
+          <input
+            type="search"
+            id="searchInput"
+            class="search-input"
+            placeholder="Buscar agente, tag ou prompt..."
+            aria-label="Buscar agente ou prompt"
+          />
+        </div>
+      </div>
+
+      <div id="agentsGrid" class="cards-grid"></div>
+    </section>
+
+    <!-- ABA 2: SOBRE MIM -->
+    <section id="tab-about" class="tab-section" aria-labelledby="aboutHeading">
+      <div class="hero-banner">
+        <div>
+          <h1 id="aboutHeading" class="hero-title">
+            Quem é a <span class="highlight-pink">Ana Júlia Alemar</span>
+          </h1>
+          <p class="hero-desc">
+            Desenvolvedora focada em Inteligência Artificial, criação de agentes, automação de fluxos e inovação tecnológica.
+          </p>
+        </div>
+      </div>
+
+      <div class="about-stack">
+        <div class="about-spotlight">
+          <div class="profile-photo-wrap" id="profilePhotoWrap">
+            <img
+              src="anajulia.jpeg"
+              alt="Foto de Ana Júlia Alemar"
+              class="profile-photo"
+              onload="this.parentElement.classList.remove('missing')"
+              onerror="this.parentElement.classList.add('missing')"
+            />
+            <div class="profile-fallback">
+              <span class="icon-svg" id="fallbackUserIcon"></span>
+              <span>anajulia.jpeg</span>
+            </div>
+          </div>
+
+          <div>
+            <span class="spotlight-tag">Prazer, Ana Júlia Alemar de Souza</span>
+            <h2 class="spotlight-title">
+              Curiosa por natureza, construtora de soluções com IA, automação e tecnologia.
+            </h2>
+            <p class="spotlight-text">
+              Estudante de Análise e Desenvolvimento de Sistemas (UDF / Cruzeiro do Sul), com formação técnica em Eletrotécnica e foco em transformar processos em fluxos inteligentes, escrever prompts funcionais e construir soluções práticas com leveza e criatividade.
+            </p>
+            <div class="spotlight-subbox">
+              <div class="spotlight-subbox-label">Atuação &amp; Foco Profissional</div>
+              <div class="spotlight-subbox-title">Automação, Agentes de IA &amp; Organização de Fluxos</div>
+              <div class="spotlight-subbox-desc">
+                Experiência com administração de Jira e Confluence, automação de processos, documentação técnica e desenvolvimento de agentes de IA.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-boxes-grid">
+          <article class="about-box">
+            <div class="about-box-header">
+              <span class="about-box-icon" id="boxEduIcon"></span>
+              <div>
+                <h3 class="about-box-title">Formação Acadêmica &amp; Técnica</h3>
+                <p class="about-box-sub">Base sólida entre software, lógica e sistemas</p>
+              </div>
+            </div>
+            <div class="about-nested-item">
+              <div class="about-nested-title">Análise e Desenvolvimento de Sistemas</div>
+              <p class="about-nested-desc">UDF / Cruzeiro do Sul • Previsão de conclusão: junho de 2027</p>
+            </div>
+            <div class="about-nested-item">
+              <div class="about-nested-title">Técnico em Eletrotécnica</div>
+              <p class="about-nested-desc">Visão prática de circuitos, sistemas, testes e resolução de falhas</p>
+            </div>
+          </article>
+
+          <article class="about-box">
+            <div class="about-box-header">
+              <span class="about-box-icon" id="boxAutoIcon"></span>
+              <div>
+                <h3 class="about-box-title">Automação &amp; Agentes de IA</h3>
+                <p class="about-box-sub">Processos, fluxos, IA e inovação</p>
+              </div>
+            </div>
+            <p class="about-box-text">
+              Atuação com administração de Jira e Confluence, organização de fluxos de trabalho, automação de rotinas e criação de agentes de IA para padronizar entregas e apoiar projetos de inovação.
+            </p>
+            <div class="mini-pills">
+              <span class="mini-pill">Jira</span>
+              <span class="mini-pill">Confluence</span>
+              <span class="mini-pill">Automação</span>
+              <span class="mini-pill">Agentes de IA</span>
+            </div>
+          </article>
+
+          <article class="about-box">
+            <div class="about-box-header">
+              <span class="about-box-icon" id="boxRobotIcon"></span>
+              <div>
+                <h3 class="about-box-title">Robótica Educacional (FIRST LEGO League)</h3>
+                <p class="about-box-sub">Prototipagem, lógica e trabalho em equipe</p>
+              </div>
+            </div>
+            <p class="about-box-text">
+              A paixão por construir, testar e iterar rápido ganhou força na robótica educacional com a FIRST LEGO League — desenvolvendo engenharia, resolução criativa de problemas, colaboração e inovação.
+            </p>
+          </article>
+
+          <article class="about-box">
+            <div class="about-box-header">
+              <span class="about-box-icon" id="boxStemIcon"></span>
+              <div>
+                <h3 class="about-box-title">Liderança Feminina em STEM</h3>
+                <p class="about-box-sub">HUB Conectadas • Ciência &amp; Tecnologia</p>
+              </div>
+            </div>
+            <p class="about-box-text">
+              Participação ativa em iniciativas conectadas ao HUB Conectadas, fortalecendo a presença feminina em ciência, tecnologia, engenharia e matemática, trocando experiências e impulsionando soluções inovadoras.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 3: IDEIAS & SOLUÇÕES -->
+    <section id="tab-ideas" class="tab-section" aria-labelledby="ideasHeading">
+      <div class="hero-banner">
+        <div>
+          <h1 id="ideasHeading" class="hero-title">
+            Ideias &amp; <span class="highlight-pink">Soluções Experimentais</span>
+          </h1>
+          <p class="hero-desc">
+            Laboratório aberto de prompts e conceitos práticos para estudo, organização de projetos e criação assistida por IA.
+          </p>
+        </div>
+      </div>
+
+      <div id="ideasGrid" class="ideas-grid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>Desenvolvido com foco em IA por Ana Júlia Alemar</span>
+      <div class="footer-links">
+        <a href="https://github.com/anajuliaalemar" target="_blank" rel="noopener noreferrer" class="footer-link">
+          <span class="icon-svg" id="footerGithubIcon"></span>
+          <span>GitHub</span>
+        </a>
+        <a href="https://www.linkedin.com/in/anajuliaalemar" target="_blank" rel="noopener noreferrer" class="footer-link">
+          <span class="icon-svg" id="footerLinkedinIcon"></span>
+          <span>LinkedIn</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal de Prompt -->
+  <div id="promptModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 id="modalTitle" class="modal-title">Prompt do Agente</h2>
+        <button type="button" id="closeModalBtn" class="modal-close" aria-label="Fechar modal">
+          <span class="icon-svg" id="closeIcon"></span>
+        </button>
+      </div>
+      <div id="modalPromptText" class="modal-prompt"></div>
+      <div class="modal-footer">
+        <button type="button" id="modalCopyBtn" class="btn-action primary">
+          <span class="icon-svg" id="modalCopyIcon"></span>
+          <span>Copiar prompt</span>
+        </button>
+        <a id="modalGithubLink" href="https://github.com/anajuliaalemar" target="_blank" rel="noopener noreferrer" class="btn-action">
+          <span class="icon-svg" id="modalGithubIcon"></span>
+          <span>Abrir no GitHub</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <span class="icon-svg" id="toastIcon"></span>
+    <span id="toastText">Prompt copiado.</span>
+  </div>
+
+  <script>
+    const ICONS = {
+      sun: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>`,
+      moon: `<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`,
+      home: `<svg viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9.5z"/></svg>`,
+      bot: `<svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="3"/><path d="M12 3v4"/><circle cx="9" cy="13" r="1.2"/><circle cx="15" cy="13" r="1.2"/><path d="M8.5 16.5h7"/></svg>`,
+      user: `<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6"/></svg>`,
+      lightbulb: `<svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.9.8 1.5 1.9 1.7 3.1h4.6c.2-1.2.8-2.3 1.7-3.1A6 6 0 0 0 12 3z"/></svg>`,
+      spark: `<svg viewBox="0 0 24 24"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4L12 2z"/></svg>`,
+      arrowRight: `<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`,
+      search: `<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>`,
+      copy: `<svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`,
+      check: `<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>`,
+      github: `<svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>`,
+      linkedin: `<svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>`,
+      expand: `<svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>`,
+      close: `<svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>`,
+      layers: `<svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
+      cpu: `<svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 15h3M1 9h3M1 15h3"/></svg>`,
+      users: `<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`
+    };
+
+    const AGENTS_DATA = [
+      {
+        id: 'ailumination',
+        title: 'Ailumination — Direção de Luz e Atmosfera',
+        category: 'Arte & Visual',
+        summary: 'Agente voltado para aplicar iluminação atmosférica, feixes de luz e rim light preservando a line art e a composição original.',
+        tags: ['Iluminação', 'Ilustração', 'Direção de Arte'],
+        githubUrl: 'https://github.com/anajuliaalemar/Ailumination',
+        prompt: `Atue como um diretor de iluminação e arte digital especializado em atmosfera e rim light.\n\nRegras obrigatórias:\n1. Preserve integralmente o traço original (line art), proporções e elementos principais da arte base.\n2. Defina a direção da fonte de luz principal, cor da luz ambiente e sombras projetadas.\n3. Adicione luz de contorno (rim light) e atmosfera sutil sem apagar detalhes internos.`
+      },
+      {
+        id: 'fluencia-livre',
+        title: 'Fluência Livre — Tutor de Idiomas',
+        category: 'Educação & Idiomas',
+        summary: 'Agente de prática de inglês focado em conversação guiada, correção gentil, vocabulário por contexto e confiança.',
+        tags: ['Inglês', 'Conversação', 'Estudos'],
+        githubUrl: 'https://github.com/anajuliaalemar',
+        prompt: `Atue como um tutor de inglês paciente, claro e encorajador.\n\nComo conduzir cada interação:\n- Responda de forma objetiva e natural, adaptada ao nível do aluno.\n- Corrija erros gramaticais ou de vocabulário ao final com uma breve explicação prática.\n- Proponha uma pergunta ou mini-desafio para manter o diálogo ativo.`
+      },
+      {
+        id: 'workflow-triagem',
+        title: 'Agente de Triagem e Documentação',
+        category: 'Automação & Fluxos',
+        summary: 'Estrutura demandas soltas em tarefas organizadas, critérios de aceite e resumo pronto para boards e documentação.',
+        tags: ['Produtividade', 'Processos', 'Documentação'],
+        githubUrl: 'https://github.com/anajuliaalemar',
+        prompt: `Atue como especialista em organização de fluxos e documentação técnica.\n\nTransforme a demanda informada em:\n1. Objetivo claro em uma frase.\n2. Checklist de tarefas acionáveis.\n3. Critérios de aceite e possíveis bloqueios.\n4. Resumo executivo curto.`
+      }
+    ];
+
+    const IDEAS_DATA = [
+      {
+        id: 'ideia-1',
+        title: 'Gerador de Checklist de MVP com IA',
+        summary: 'Converte uma ideia bruta de produto em escopo essencial, fluxo principal e próximos passos semanais.',
+        githubUrl: 'https://github.com/anajuliaalemar',
+        prompt: `Ajude a estruturar um MVP enxuto a partir desta ideia: [descreva a ideia].\nListe: problema central, proposta de valor, 3 funcionalidades essenciais para a primeira versão e um plano de 7 dias para validar.`
+      },
+      {
+        id: 'ideia-2',
+        title: 'Revisor de Prompts para Resultados Consistentes',
+        summary: 'Audita um prompt existente e sugere melhorias de papel, contexto, formato de saída e restrições.',
+        githubUrl: 'https://github.com/anajuliaalemar',
+        prompt: `Analise o prompt a seguir e aponte onde ele pode gerar respostas vagas ou inconsistentes. Em seguida, entregue uma versão otimizada com papel definido, regras claras e formato de saída estruturado:\n\n[cole seu prompt aqui]`
+      },
+      {
+        id: 'ideia-3',
+        title: 'Resumo Técnico para Apresentação Rápida',
+        summary: 'Traduz soluções técnicas complexas em pontos claros para demos, pitches ou equipes multidisciplinares.',
+        githubUrl: 'https://github.com/anajuliaalemar',
+        prompt: `Explique a solução técnica abaixo de forma clara, direta e envolvente para uma apresentação de 2 minutos, destacando o problema resolvido, como funciona e o impacto prático:\n\n[descreva a solução]`
+      }
+    ];
+
+    const CATEGORIES = ['Todos', ...Array.from(new Set(AGENTS_DATA.map((a) => a.category)))];
+
+    function getInitialTheme() {
+      const saved = localStorage.getItem('aj_portfolio_theme');
+      if (saved === 'light') return false;
+      if (saved === 'dark') return true;
+      return true;
+    }
+
+    // Estado da aplicação (começa na tela inicial 'home')
+    const state = {
+      activeTab: 'home',
+      selectedCategory: 'Todos',
+      searchQuery: '',
+      isDark: getInitialTheme(),
+      currentModalGithubUrl: 'https://github.com/anajuliaalemar',
+      currentModalPrompt: ''
+    };
+
+    function applyTheme(isDark) {
+      const htmlEl = document.documentElement;
+      if (isDark) {
+        htmlEl.classList.remove('light');
+        htmlEl.classList.add('dark');
+      } else {
+        htmlEl.classList.remove('dark');
+        htmlEl.classList.add('light');
+      }
+      localStorage.setItem('aj_portfolio_theme', isDark ? 'dark' : 'light');
+
+      const themeIcon = document.getElementById('themeIcon');
+      if (themeIcon) {
+        themeIcon.innerHTML = isDark ? ICONS.sun : ICONS.moon;
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toastText');
+      if (!toast || !toastText) return;
+      toastText.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2200);
+    }
+
+    async function copyToClipboard(text, successMsg = 'Prompt copiado para a área de transferência.') {
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(successMsg);
+      } catch {
+        const area = document.createElement('textarea');
+        area.value = text;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand('copy');
+        document.body.removeChild(area);
+        showToast(successMsg);
+      }
+    }
+
+    function setActiveTab(tabName) {
+      state.activeTab = tabName;
+
+      document.querySelectorAll('.tab-section').forEach((sec) => {
+        sec.classList.toggle('active', sec.id === `tab-${tabName}`);
+      });
+
+      document.querySelectorAll('.tab-btn').forEach((btn) => {
+        const isCurrent = btn.dataset.tab === tabName;
+        btn.classList.toggle('active', isCurrent);
+        btn.setAttribute('aria-pressed', String(isCurrent));
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openPromptModal(title, promptText, githubUrl) {
+      state.currentModalPrompt = promptText;
+      state.currentModalGithubUrl = githubUrl;
+
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalPromptText').textContent = promptText;
+      document.getElementById('modalGithubLink').href = githubUrl;
+      document.getElementById('promptModal').classList.add('open');
+    }
+
+    function closePromptModal() {
+      document.getElementById('promptModal').classList.remove('open');
+    }
+
+    function renderCategoryPills() {
+      const container = document.getElementById('categoryPills');
+      if (!container) return;
+      container.innerHTML = CATEGORIES.map((cat) => {
+        const activeClass = state.selectedCategory === cat ? 'active' : '';
+        return `<button type="button" class="pill-btn ${activeClass}" data-category="${cat}">${cat}</button>`;
+      }).join('');
+
+      container.querySelectorAll('.pill-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          state.selectedCategory = btn.dataset.category;
+          renderCategoryPills();
+          renderAgentsGrid();
+        });
+      });
+    }
+
+    function renderAgentsGrid() {
+      const grid = document.getElementById('agentsGrid');
+      if (!grid) return;
+
+      const q = state.searchQuery.trim().toLowerCase();
+      const filtered = AGENTS_DATA.filter((item) => {
+        const matchCat = state.selectedCategory === 'Todos' || item.category === state.selectedCategory;
+        const matchQuery = !q ||
+          item.title.toLowerCase().includes(q) ||
+          item.summary.toLowerCase().includes(q) ||
+          item.prompt.toLowerCase().includes(q) ||
+          item.tags.some((t) => t.toLowerCase().includes(q));
+        return matchCat && matchQuery;
+      });
+
+      if (!filtered.length) {
+        grid.innerHTML = `
+          <div class="about-box">
+            <h3 class="about-box-title">Nenhum agente encontrado</h3>
+            <p class="about-box-text">Tente buscar por outro termo ou selecione a categoria "Todos".</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map((agent) => `
+        <article class="agent-card">
+          <div>
+            <div class="card-top">
+              <span class="card-category">${agent.category}</span>
+            </div>
+            <h2 class="card-title">${agent.title}</h2>
+            <p class="card-summary">${agent.summary}</p>
+            <pre class="prompt-preview">${agent.prompt}</pre>
+            <div class="card-tags">
+              ${agent.tags.map((tag) => `<span class="tag-chip">#${tag}</span>`).join('')}
+            </div>
+          </div>
+
+          <div class="card-actions">
+            <button type="button" class="btn-action primary" data-copy-agent="${agent.id}">
+              <span class="icon-svg">${ICONS.copy}</span>
+              <span>Copiar prompt</span>
+            </button>
+            <button type="button" class="btn-action" data-expand-agent="${agent.id}">
+              <span class="icon-svg">${ICONS.expand}</span>
+              <span>Ver completo</span>
+            </button>
+            <a href="${agent.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn-action">
+              <span class="icon-svg">${ICONS.github}</span>
+              <span>GitHub</span>
+            </a>
+          </div>
+        </article>
+      `).join('');
+
+      grid.querySelectorAll('[data-copy-agent]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const found = AGENTS_DATA.find((a) => a.id === btn.dataset.copyAgent);
+          if (found) copyToClipboard(found.prompt, `Prompt de "${found.title}" copiado.`);
+        });
+      });
+
+      grid.querySelectorAll('[data-expand-agent]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const found = AGENTS_DATA.find((a) => a.id === btn.dataset.expandAgent);
+          if (found) openPromptModal(found.title, found.prompt, found.githubUrl);
+        });
+      });
+    }
+
+    function renderIdeasGrid() {
+      const grid = document.getElementById('ideasGrid');
+      if (!grid) return;
+
+      grid.innerHTML = IDEAS_DATA.map((idea) => `
+        <article class="idea-card">
+          <div>
+            <h2 class="card-title">${idea.title}</h2>
+            <p class="card-summary">${idea.summary}</p>
+            <pre class="prompt-preview">${idea.prompt}</pre>
+          </div>
+          <div class="card-actions">
+            <button type="button" class="btn-action primary" data-copy-idea="${idea.id}">
+              <span class="icon-svg">${ICONS.copy}</span>
+              <span>Copiar ideia</span>
+            </button>
+            <button type="button" class="btn-action" data-expand-idea="${idea.id}">
+              <span class="icon-svg">${ICONS.expand}</span>
+              <span>Abrir modal</span>
+            </button>
+          </div>
+        </article>
+      `).join('');
+
+      grid.querySelectorAll('[data-copy-idea]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const found = IDEAS_DATA.find((i) => i.id === btn.dataset.copyIdea);
+          if (found) copyToClipboard(found.prompt, `Prompt de "${found.title}" copiado.`);
+        });
+      });
+
+      grid.querySelectorAll('[data-expand-idea]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const found = IDEAS_DATA.find((i) => i.id === btn.dataset.expandIdea);
+          if (found) openPromptModal(found.title, found.prompt, found.githubUrl);
+        });
+      });
+    }
+
+    function injectStaticIcons() {
+      const map = {
+        badgeSparkIcon: ICONS.spark,
+        navHomeIcon: ICONS.home,
+        navAgentsIcon: ICONS.bot,
+        navAboutIcon: ICONS.user,
+        navIdeasIcon: ICONS.lightbulb,
+        kickerIcon: ICONS.spark,
+        arrowCard1: ICONS.arrowRight,
+        arrowCard2: ICONS.arrowRight,
+        arrowCard3: ICONS.arrowRight,
+        searchIcon: ICONS.search,
+        fallbackUserIcon: ICONS.user,
+        boxEduIcon: ICONS.layers,
+        boxAutoIcon: ICONS.bot,
+        boxRobotIcon: ICONS.cpu,
+        boxStemIcon: ICONS.users,
+        footerGithubIcon: ICONS.github,
+        footerLinkedinIcon: ICONS.linkedin,
+        closeIcon: ICONS.close,
+        modalCopyIcon: ICONS.copy,
+        modalGithubIcon: ICONS.github,
+        toastIcon: ICONS.check
+      };
+
+      Object.entries(map).forEach(([id, svg]) => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = svg;
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      injectStaticIcons();
+      applyTheme(state.isDark);
+      renderCategoryPills();
+      renderAgentsGrid();
+      renderIdeasGrid();
+      setActiveTab(state.activeTab);
+
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        state.isDark = !state.isDark;
+        applyTheme(state.isDark);
+      });
+
+      document.querySelectorAll('.tab-btn').forEach((btn) => {
+        btn.addEventListener('click', () => setActiveTab(btn.dataset.tab));
+      });
+
+      document.querySelectorAll('[data-go-tab]').forEach((el) => {
+        el.addEventListener('click', (e) => {
+          const targetTab = el.dataset.goTab;
+          if (targetTab) {
+            e.preventDefault();
+            setActiveTab(targetTab);
+          }
+        });
+      });
+
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        state.searchQuery = e.target.value;
+        renderAgentsGrid();
+      });
+
+      document.getElementById('closeModalBtn').addEventListener('click', closePromptModal);
+      document.getElementById('promptModal').addEventListener('click', (e) => {
+        if (e.target.id === 'promptModal') closePromptModal();
+      });
+      document.getElementById('modalCopyBtn').addEventListener('click', () => {
+        copyToClipboard(state.currentModalPrompt, 'Prompt copiado para a área de transferência.');
+      });
+    });
+  </script>
+</body>
+</html>
